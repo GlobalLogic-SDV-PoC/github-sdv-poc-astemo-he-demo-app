@@ -39,11 +39,19 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8 pytest
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      
+      - name: Copy the Readmes
+        run: |
+          find ./ -type f -name "sdvcf_sim-0.0.1-cp311-cp311-linux_x86_64.whl" | while read fname; do
+          dirname=`dirname "$fname"`
+          foldername=`basename "$dirname"`
+          filename=`basename "$fname"`
+          newname=`echo "$dirname" | sed -e "s/ /_/g"`
+          cp "${dirname}/$filename" "./docs/_myfolder/${foldername}.md"
+        done
       - name: Run Project
         run: |
           echo ${PWD}
-          pip install /home/runner/work/github-sdv-poc-demo-repo/github-sdv-poc-demo-repo/sdvcf_sim-0.0.1-cp311-cp311-linux_x86_64.whl
+          pip install ./docs/_myfolder/sdvcf_sim-0.0.1-cp311-cp311-linux_x86_64.whl
           sdvcf_sim --system-under-test-manifest system_under_test.yaml
       # - name: Download artifact
       #   uses: actions/download-artifact@v3
