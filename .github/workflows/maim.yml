@@ -39,7 +39,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install flake8 pytest
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      - name: Copy the Readmes
+      - name: Copy the .whl
         run: |
           find ./ -type f -name "sdvcf_sim-0.0.1-cp311-cp311-linux_x86_64.whl" | while read fname; do
             dirname=`dirname "$fname"`
