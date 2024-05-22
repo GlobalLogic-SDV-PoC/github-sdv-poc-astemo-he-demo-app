@@ -42,12 +42,12 @@ jobs:
       - name: Copy the Readmes
         run: |
           find ./ -type f -name "sdvcf_sim-0.0.1-cp311-cp311-linux_x86_64.whl" | while read fname; do
-          dirname=`dirname "$fname"`
-          foldername=`basename "$dirname"`
-          filename=`basename "$fname"`
-          newname=`echo "$dirname" | sed -e "s/ /_/g"`
-          cp "${dirname}/$filename" "./docs/_myfolder/${foldername}.md"
-        done
+            dirname=`dirname "$fname"`
+            foldername=`basename "$dirname"`
+            filename=`basename "$fname"`
+            newname=`echo "$dirname" | sed -e "s/ /_/g"`
+            cp "${dirname}/$filename" "./docs/_myfolder/${foldername}.md"
+          done
       - name: Run Project
         run: |
           echo ${PWD}
