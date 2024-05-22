@@ -1,0 +1,22 @@
+version: 'v2.0'
+units:
+  unit_tests:
+    cloud_provider:
+      name: 'AWS'
+      project_name: 'sdv-qa'
+      subnet_id: 'subnet-08790dd098fa8b491'
+      image: 'QNX'
+      instance_type: 't2.micro'
+      security_group_name: 'default'
+    adaptor: compiled_binary
+    executor_type: 'ssh'
+    connection_try_limit: 3
+    environement:
+      work_folder_on_remote: '/tmp/'
+      src_folder_on_local: 'sdvcf_sim/sdv_testing_tool/src/providers/ansible/library/aws/resources'
+      file_to_run: 'test_file.sh'
+    report:
+      type: 'xml'
+      location: ''
+      transfer_report: True
+    depends_on:
