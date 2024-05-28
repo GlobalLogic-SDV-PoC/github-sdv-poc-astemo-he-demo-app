@@ -18,14 +18,13 @@ jobs:
           sudo apt update
           sudo apt install build-essential libtool autoconf libssl-dev libssh-dev cmake
 
-      - name: Fetch GTest
-        run: |
-          cd gtest-example-cpp
-          git submodule update --init --recursive
+      # - name: Fetch GTest
+      #   run: |
+      #     cd gtest-example-cpp
+      #     git submodule update --init --recursive
 
       - name: Build
         run: |
-          cd gtest-example-cpp
           mkdir build
           cd build
           cmake ../
