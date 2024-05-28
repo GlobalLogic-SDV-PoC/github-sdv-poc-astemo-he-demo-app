@@ -28,7 +28,7 @@ jobs:
           cd gtest-example-cpp
           mkdir build
           cd build
-          cmake ..
+          cmake ../
           make
 
   # Test Job
