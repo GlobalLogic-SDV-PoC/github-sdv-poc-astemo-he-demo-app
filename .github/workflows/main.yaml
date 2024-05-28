@@ -1,0 +1,76 @@
+name: SDVCF_SIM build and run
+
+on:
+  push:
+    branches:
+      - pipeline
+
+jobs:
+  # Build Job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Preinstall
+        run: |
+          sudo apt update
+          sudo apt install build-essential libtool autoconf libssl-dev libssh-dev cmake
+
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make
+      
+      - name: Temporarily save build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: binary-unit-tests
+          path: ./build/test/gtest_example_unit_tests
+          retention-days: 1
+
+  # Test Job
+  run:
+    needs: build
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set AWS credentials
+        run: |
+          echo "AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID>" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY>" >> $GITHUB_ENV
+          echo "WS_DEFAULT_REGION=<WS_DEFAULT_REGION=>" >> $GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.11"
+      
+      - name: Update pip
+        run: |
+          python -m pip install --upgrade pip
+      
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: binary-unit-tests
+          path: ./build/test/gtest_example_unit_tests
+
+      - name: Run Project
+        run: |
+          pip install ./sdvcf_sim-0.0.1-cp311-cp311-linux_x86_64.whl
+          
+          export PATH_TO_BINARY=./build/test/gtest_example_unit_tests
+          export CLOUD_PROVIDER=AWS
+          export SUBNET_ID=subnet-08790dd098fa8b491
+          export IMAGE_ID=QNX
+          export INSTANCE_TYPE=t2.micro
+          sdvcf_sim --system-under-test-manifest system_under_test.yaml
