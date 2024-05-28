@@ -13,8 +13,8 @@ units:
     connection_try_limit: 3
     environement:
       work_folder_on_remote: '/tmp/'
-      src_folder_on_local: 'sdv_testing_tool/src/providers/ansible/library/aws/resources'  # NV "${PATH_TO_BINARY}" # MERGE FOLDER AND PATH
-      file_to_run: 'test_file.sh'
+      path_to_binary: !ENV "${PATH_TO_BINARY}"
+      file_to_copy: 'test_file.sh'
     report: 
       type: 'xml' # REMOVE THIS OPTION
       location: !ENV "${REPORT_DIR}" # USE THAT FOR COPYING
