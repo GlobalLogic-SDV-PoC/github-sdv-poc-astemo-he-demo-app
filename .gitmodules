@@ -1,0 +1,3 @@
+[submodule "gtest-example-cpp"]
+	path = gtest-example-cpp
+	url = git@github.com:MaksymilianMGL/gtest-example-cpp.git
