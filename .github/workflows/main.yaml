@@ -22,6 +22,7 @@ jobs:
 
       - name: Build
         run: |
+          ls dep/external/gtest
           mkdir build
           cd build
           cmake ..
