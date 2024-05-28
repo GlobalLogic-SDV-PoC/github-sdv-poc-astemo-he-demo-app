@@ -20,13 +20,15 @@ jobs:
 
       - name: Fetch GTest
         run: |
+          cd gtest-example-cpp
           git submodule update --init --recursive
 
       - name: Build
         run: |
+          cd gtest-example-cpp
           mkdir build
           cd build
-          cmake ../
+          cmake ..
           make
 
   # Test Job
