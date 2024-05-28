@@ -13,15 +13,23 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Install Dependencies
+      - name: Preinstall
         run: |
-          echo dependencies installation ...
-          echo dependencies installed.
+          sudo apt update
+          sudo apt install build-essential libtool autoconf libssl-dev libssh-dev cmake
 
-      - name: Build Project
+      - name: Fetch GTest
         run: |
-          echo SDVCF_SIM building ...
-          echo SDVCF_SIM built.
+          cd gtest-example-cpp
+          git submodule update --init --recursive
+
+      - name: Build
+        run: |
+          cd gtest-example-cpp
+          mkdir build
+          cd build
+          cmake ..
+          make
 
   # Test Job
   run:
