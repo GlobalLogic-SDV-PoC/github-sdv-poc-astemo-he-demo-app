@@ -43,7 +43,7 @@ jobs:
           make
       
       - name: Temporarily save build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: binary-unit-tests
           path: ./build/test/gtest_example_unit_tests
@@ -59,7 +59,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python 3.11
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: "3.11"
       
@@ -68,7 +68,7 @@ jobs:
           python -m pip install --upgrade pip
       
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: binary-unit-tests
           path: ./build/test/gtest_example_unit_tests
@@ -103,11 +103,13 @@ jobs:
           echo $SUBNET_ID
 
           echo "INPUTS : ${{ github.events.inputs }}"
+          echo "VARS : ${{ vars }}"
+          echo "ENV : ${{ env }}"
           
           sdvcf_sim --system-under-test-manifest system_under_test.yaml
 
       - name: Download report
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: output-result
           path: ./output/result.xml
