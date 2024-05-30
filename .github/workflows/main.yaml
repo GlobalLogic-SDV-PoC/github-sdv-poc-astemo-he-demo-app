@@ -13,11 +13,11 @@ on:
       subnet_id:
         description: 'SUBNET_ID'
         required: true
-        default: 'subnet-08790dd098fa8b491'
+        default: 'subnet-0169ae62d47f4b0b6'
 
 env:
   AWS_DEFAULT_REGION: eu-west-1
-  SUBNET_ID: subnet-08790dd098fa8b491
+  SUBNET_ID: subnet-0169ae62d47f4b0b6
 
 jobs:
   # Build Job
