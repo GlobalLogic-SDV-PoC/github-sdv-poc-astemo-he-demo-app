@@ -106,6 +106,8 @@ jobs:
           echo "VARS : ${{ toJson(vars) }}"
           echo "ENV : ${{ toJson(env) }}"
           
+          cat /opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/sdv_testing_tool/src/applications/cli/command_executors/timer.py
+          
           sdvcf_sim --system-under-test-manifest system_under_test.yaml
 
       - name: Download report
