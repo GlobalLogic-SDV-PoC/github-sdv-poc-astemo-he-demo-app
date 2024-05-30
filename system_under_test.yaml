@@ -13,10 +13,10 @@ units:
     connection_try_limit: 3
     environement:
       work_folder_on_remote: '/tmp/'
-      path_to_binary: !ENV "${PATH_TO_BINARY}"
-      file_to_copy: 'test_file.sh'
+      path_to_binary: !ENV "${PATH_TO_EXECUTABLE_LOCAL}"
     report: 
-      type: 'xml' # REMOVE THIS OPTION
-      location: !ENV "${REPORT_DIR}" # USE THAT FOR COPYING
-      transfer_report: True #OVERTHINK THAT
+      # type: 'xml' # REMOVE THIS OPTION
+      location_remote: !ENV "${REPORT_DIRECTORY_REMOTE}"
+      location_local: !ENV "${REPORT_DIRECTORY_LOCAL}"
+      # transfer_report: True #OVERTHINK THAT
     depends_on: # MAKE OPTIONAL

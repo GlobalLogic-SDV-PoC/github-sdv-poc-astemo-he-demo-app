@@ -65,15 +65,23 @@ jobs:
         run: |
           pip install ./sdvcf_sim-0.0.1-cp311-cp311-linux_x86_64.whl
           
-          export AWS_ACCESS_KEY_ID=${{ env.AWS_ACCESS_KEY_ID }}
-          export AWS_SECRET_ACCESS_KEY=${{ env.AWS_SECRET_ACCESS_KEY }}
-          export AWS_DEFAULT_REGION=${{ env.AWS_DEFAULT_REGION }}
-
-
-          export PATH_TO_BINARY=./build/test/gtest_example_unit_tests
           export CLOUD_PROVIDER=AWS
           export SUBNET_ID=subnet-08790dd098fa8b491
           export IMAGE_ID=QNX
           export INSTANCE_TYPE=t2.micro
+          export AWS_ACCESS_KEY_ID=${{ env.AWS_ACCESS_KEY_ID }}
+          export AWS_SECRET_ACCESS_KEY=${{ env.AWS_SECRET_ACCESS_KEY }}
+          export AWS_DEFAULT_REGION=${{ env.AWS_DEFAULT_REGION }}
+
+          export PATH_TO_EXECUTABLE_LOCAL=./build/test/gtest_example_unit_tests
+          
+          export REPORT_DIRECTORY_REMOTE = ./output
+          export REPORT_DIRECTORY_LOCAL = ./output
           
           sdvcf_sim --system-under-test-manifest system_under_test.yaml
+
+      - name: Download report
+        uses: actions/download-artifact@v3
+        with:
+          name: output-result
+          path: ./output/result.xml
