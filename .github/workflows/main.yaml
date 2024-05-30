@@ -22,7 +22,11 @@ env:
 jobs:
   # Build Job
   build:
-    runs-on: ubuntu-latest
+    container: ubuntu:latest
+    runs-on:
+      - self-hosted
+      - k8s-api
+      - linux-amd64-m
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
