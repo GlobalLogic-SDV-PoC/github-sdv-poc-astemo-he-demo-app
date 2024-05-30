@@ -74,8 +74,8 @@ jobs:
           path: ./build/test/gtest_example_unit_tests
 
       - name: Run Project
-          # pip install ./sdvcf_sim-0.0.1-cp311-cp311-linux_x86_64.whl
         run: |
+          pip install ./sdvcf_sim-0.0.1-cp311-cp311-linux_x86_64.whl
           
           export CLOUD_PROVIDER=AWS
           export SUBNET_ID=${{ github.events.inputs.subnet_id || env.SUBNET_ID }}
