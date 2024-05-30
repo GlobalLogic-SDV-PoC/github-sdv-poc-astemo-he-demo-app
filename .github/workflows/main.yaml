@@ -90,23 +90,9 @@ jobs:
           export REPORT_DIRECTORY_REMOTE=`pwd`/output
           export REPORT_DIRECTORY_LOCAL=`pwd`/output
           
-          echo "AWS_ACCESS_KEY_ID"
-          echo $AWS_ACCESS_KEY_ID
-
-          echo "AWS_SECRET_ACCESS_KEY"
-          echo $AWS_SECRET_ACCESS_KEY
-
-          echo "AWS_DEFAULT_REGION"
-          echo $AWS_DEFAULT_REGION
-  
-          echo "SUBNET_ID"
-          echo $SUBNET_ID
-
           echo "INPUTS : ${{ toJson(github.events.inputs) }}"
           echo "VARS : ${{ toJson(vars) }}"
           echo "ENV : ${{ toJson(env) }}"
-          
-          # cat /opt/hostedtoolcache/Python/3.11.9/x64/lib/python3.11/site-packages/sdv_testing_tool/src/applications/cli/command_executors/timer.py
           
           sdvcf_sim --system-under-test-manifest system_under_test.yaml
 
