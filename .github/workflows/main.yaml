@@ -75,7 +75,7 @@ jobs:
         run: |
           
           export CLOUD_PROVIDER=AWS
-          export SUBNET_ID=${{ github.event.inputs..subnet_id }}
+          export SUBNET_ID=${{ github.event.inputs.subnet_id }}
           export IMAGE_ID=QNX
           export INSTANCE_TYPE=t2.micro
           export AWS_ACCESS_KEY_ID=${{ env.AWS_ACCESS_KEY_ID }}
