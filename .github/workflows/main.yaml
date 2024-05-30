@@ -70,8 +70,8 @@ jobs:
           path: ./build/test/gtest_example_unit_tests
 
       - name: Run Project
+          # pip install ./sdvcf_sim-0.0.1-cp311-cp311-linux_x86_64.whl
         run: |
-          pip install ./sdvcf_sim-0.0.1-cp311-cp311-linux_x86_64.whl
           
           export CLOUD_PROVIDER=AWS
           export SUBNET_ID=${{ github.event.inputs.SUBNET_ID }}
@@ -94,6 +94,9 @@ jobs:
 
           echo "AWS_DEFAULT_REGION"
           echo $AWS_DEFAULT_REGION
+  
+          echo "REPORT_DIRECTORY_REMOTE"
+          echo $REPORT_DIRECTORY_REMOTE
 
           sdvcf_sim --system-under-test-manifest system_under_test.yaml
 
