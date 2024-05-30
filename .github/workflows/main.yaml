@@ -4,9 +4,16 @@ on:
   push:
     branches:
       - pipeline
-env:
-  AWS_DEFAULT_REGION: eu-west-1
-  SUBNET_ID: subnet-08790dd098fa8b491
+  workflow_dispatch:
+    inputs:
+      AWS_DEFAULT_REGION:
+        description: 'AWS_DEFAULT_REGION'
+        required: true
+        default: 'eu-west-1'
+      SUBNET_ID:
+        description: 'SUBNET_ID'
+        required: true
+        default: 'subnet-08790dd098fa8b491'
 
 jobs:
   # Build Job
@@ -67,12 +74,12 @@ jobs:
           pip install ./sdvcf_sim-0.0.1-cp311-cp311-linux_x86_64.whl
           
           export CLOUD_PROVIDER=AWS
-          export SUBNET_ID=${{ SUBNET_ID }}
+          export SUBNET_ID=${{ github.event.inputs.SUBNET_ID }}
           export IMAGE_ID=QNX
           export INSTANCE_TYPE=t2.micro
           export AWS_ACCESS_KEY_ID=${{ env.AWS_ACCESS_KEY_ID }}
           export AWS_SECRET_ACCESS_KEY=${{ env.AWS_SECRET_ACCESS_KEY }}
-          export AWS_DEFAULT_REGION=${{ env.AWS_DEFAULT_REGION }}
+          export AWS_DEFAULT_REGION=${{ github.event.inputs.AWS_DEFAULT_REGION }}
 
           export PATH_TO_EXECUTABLE_LOCAL=./build/test/gtest_example_unit_tests
           
