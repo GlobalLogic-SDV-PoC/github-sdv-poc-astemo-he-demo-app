@@ -13,11 +13,11 @@ on:
       subnet_id:
         description: 'SUBNET_ID'
         required: true
-        default: 'subnet-0169ae62d47f4b0b6'
+        default: 'eks-cluster-sg-aws-sdv-poc-eks-psr-cluster-1857980891'
 
 env:
   AWS_DEFAULT_REGION: eu-west-1
-  SUBNET_ID: subnet-0169ae62d47f4b0b6
+  SUBNET_ID: eks-cluster-sg-aws-sdv-poc-eks-psr-cluster-1857980891
 
 jobs:
   # Build Job
