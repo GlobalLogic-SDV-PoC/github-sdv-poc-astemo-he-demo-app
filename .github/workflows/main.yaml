@@ -7,13 +7,14 @@ on:
   workflow_dispatch:
     inputs:
       aws_default_region:
-        description: 'AWS_DEFAULT_REGION'
+        description: 'aws_default_region'
         required: true
         default: 'eu-west-1'
       subnet_id:
         description: 'SUBNET_ID'
         required: true
         default: 'subnet-08790dd098fa8b491'
+
 
 jobs:
   # Build Job
@@ -74,12 +75,12 @@ jobs:
         run: |
           
           export CLOUD_PROVIDER=AWS
-          export SUBNET_ID=${{ inputs.subnet_id }}
+          export SUBNET_ID=${{ github.event.inputs..subnet_id }}
           export IMAGE_ID=QNX
           export INSTANCE_TYPE=t2.micro
           export AWS_ACCESS_KEY_ID=${{ env.AWS_ACCESS_KEY_ID }}
           export AWS_SECRET_ACCESS_KEY=${{ env.AWS_SECRET_ACCESS_KEY }}
-          export AWS_DEFAULT_REGION=${{ inputs.aws_default_region }}
+          export AWS_DEFAULT_REGION=${{ github.event.inputs.aws_default_region }}
 
           export PATH_TO_EXECUTABLE_LOCAL=./build/test/gtest_example_unit_tests
           
@@ -95,9 +96,11 @@ jobs:
           echo "AWS_DEFAULT_REGION"
           echo $AWS_DEFAULT_REGION
   
-          echo "REPORT_DIRECTORY_REMOTE"
-          echo $REPORT_DIRECTORY_REMOTE
+          echo "SUBNET_ID"
+          echo $SUBNET_ID
 
+          echo "INPUTS : ${{ github.event.inputs }}"
+          
           sdvcf_sim --system-under-test-manifest system_under_test.yaml
 
       - name: Download report
