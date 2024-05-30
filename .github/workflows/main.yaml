@@ -102,9 +102,9 @@ jobs:
           echo "SUBNET_ID"
           echo $SUBNET_ID
 
-          echo "INPUTS : ${{ github.events.inputs }}"
-          echo "VARS : ${{ vars }}"
-          echo "ENV : ${{ env }}"
+          echo "INPUTS : ${{ toJson(github.events.inputs) }}"
+          echo "VARS : ${{ toJson(vars) }}"
+          echo "ENV : ${{ toJson(env) }}"
           
           sdvcf_sim --system-under-test-manifest system_under_test.yaml
 
