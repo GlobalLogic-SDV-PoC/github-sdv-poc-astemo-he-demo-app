@@ -4,19 +4,23 @@ on:
   push:
     branches:
       - pipeline
-  workflow_dispatch:
+  # workflow_dispatch:
+  workflow_call:
     inputs:
       aws_default_region:
         description: 'aws_default_region'
         required: true
+        type: string
         default: 'eu-west-1'
       subnet_id:
         description: 'SUBNET_ID'
         required: true
+        type: string
         default: 'subnet-0169ae62d47f4b0b6'
       security_group:
         description: 'aws_security_group'
         required: true
+        type: string
         default: 'eks-cluster-sg-aws-sdv-poc-eks-psr-cluster-1857980891'
 
 env:
