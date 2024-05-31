@@ -21,12 +21,12 @@ on:
         description: 'aws_security_group'
         required: true
         type: string
-        default: 'eks-cluster-sg-aws-sdv-poc-eks-psr-cluster-1857980891'
+        default: 'aws-sdv-poc-sdv-user-awscomputeserver-security-group'
 
 env:
   AWS_DEFAULT_REGION: eu-west-1
   SUBNET_ID: subnet-0169ae62d47f4b0b6
-  AWS_SECURITY_GROUP: eks-cluster-sg-aws-sdv-poc-eks-psr-cluster-1857980891
+  AWS_SECURITY_GROUP: aws-sdv-poc-sdv-user-awscomputeserver-security-group
 
 jobs:
   # Build Job
