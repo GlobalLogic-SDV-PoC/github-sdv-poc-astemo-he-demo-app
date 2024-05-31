@@ -112,7 +112,7 @@ jobs:
           sdvcf_sim --system-under-test-manifest system_under_test.yaml
 
       - name: Download report
-        uses: actions/download-artifact@v4
+        uses: actions/upload-artifact@v4
         with:
           name: output-result
           path: output_local/**/*.xml
