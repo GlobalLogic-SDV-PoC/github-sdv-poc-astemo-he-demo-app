@@ -98,11 +98,12 @@ jobs:
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
           export AWS_DEFAULT_REGION=${{ github.events.inputs.aws_default_region || env.AWS_DEFAULT_REGION }}
           export AWS_SECURITY_GROUP=${{ github.events.inputs.aws_security_group || env.AWS_SECURITY_GROUP }}
-          ls ./build/test/gtest_example_unit_tests
+          
           export PATH_TO_EXECUTABLE_LOCAL=./build/test/gtest_example_unit_tests/gtest_example_unit_tests
           
-          export REPORT_DIRECTORY_REMOTE=./tmp/
-          export REPORT_DIRECTORY_LOCAL=./output_local
+          export REPORT_DIRECTORY_REMOTE=./output
+          mkdir `pwd`/output_local
+          export REPORT_DIRECTORY_LOCAL=`pwd`/output_local
           
           echo "INPUTS : ${{ toJson(github.events.inputs) }}"
           echo "VARS : ${{ toJson(vars) }}"
