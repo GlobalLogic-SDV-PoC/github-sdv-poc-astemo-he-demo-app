@@ -99,7 +99,7 @@ jobs:
           export AWS_DEFAULT_REGION=${{ github.events.inputs.aws_default_region || env.AWS_DEFAULT_REGION }}
           export AWS_SECURITY_GROUP=${{ github.events.inputs.aws_security_group || env.AWS_SECURITY_GROUP }}
           ls ./build/test/gtest_example_unit_tests
-          export PATH_TO_EXECUTABLE_LOCAL=./build/test/gtest_example_unit_tests
+          export PATH_TO_EXECUTABLE_LOCAL=./build/test/gtest_example_unit_tests/gtest_example_unit_tests
           
           export REPORT_DIRECTORY_REMOTE=`pwd`/output
           export REPORT_DIRECTORY_LOCAL=`pwd`/output
