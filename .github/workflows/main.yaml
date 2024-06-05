@@ -1,4 +1,9 @@
 name: SDVCF_SIM build and run
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
 
 on:
   push:
@@ -117,9 +122,9 @@ jobs:
           name: output-result
           path: output_local/**/*.xml
 
-      # - name: Publish Test Results
-      #   uses: EnricoMi/publish-unit-test-result-action/linux@v2
-      #   if: always()
-      #   with:
-      #     files: |
-      #       output_local/**/*.xml
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2
+        if: always()
+        with:
+          files: |
+            output_local/**/*.xml
