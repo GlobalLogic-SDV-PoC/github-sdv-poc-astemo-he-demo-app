@@ -7,7 +7,7 @@ units:
       subnet_id: !ENV "${SUBNET_ID}"
       image: !ENV "${IMAGE_ID}"
       instance_type: !ENV "${INSTANCE_TYPE}"
-      security_group_name: !ENV "${AWS_SECURITY_GROUP}"
+#      security_group_name: !ENV "${AWS_SECURITY_GROUP}"
     adaptor: compiled_binary
     executor_type: 'ssh'
     connection_try_limit: 3
