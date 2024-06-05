@@ -36,6 +36,7 @@ env:
 jobs:
   # Build Job
   build:
+    name: "Build Unit Test sources"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -65,6 +66,7 @@ jobs:
 
   # Test Job
   run:
+    name: "Create env and Execute unit Tests"
     needs: build
 
     container: ubuntu:latest
@@ -122,9 +124,10 @@ jobs:
           name: output-result
           path: output_local/**/*.xml
 
-      - name: Publish Test Results
+      - name: Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action/linux@v2
         if: always()
         with:
+          comment_mode: always
           files: |
             output_local/**/*.xml
