@@ -34,7 +34,7 @@ env:
   AWS_SECURITY_GROUP: aws-sdv-poc-sdv-user-awscomputeserver-security-group
 
 jobs:
-  # Build Job
+  # Build Unit Test Sources Job
   build:
     name: "Build Unit Test sources"
     runs-on: ubuntu-latest
@@ -64,7 +64,7 @@ jobs:
           path: ./build/test/gtest_example_unit_tests
           retention-days: 1
 
-  # Test Job
+  # Execute Unit Test Job
   run:
     name: "Create env and Execute unit Tests"
     needs: build
