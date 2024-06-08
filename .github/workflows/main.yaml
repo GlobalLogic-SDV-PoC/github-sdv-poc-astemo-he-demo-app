@@ -1,0 +1,133 @@
+name: SDVCF_SIM build and run
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
+
+on:
+  push:
+    branches:
+      - main
+  # workflow_dispatch:
+  workflow_call:
+    inputs:
+      aws_default_region:
+        description: 'aws_default_region'
+        required: true
+        type: string
+        default: 'eu-west-1'
+      subnet_id:
+        description: 'SUBNET_ID'
+        required: true
+        type: string
+        default: 'subnet-0169ae62d47f4b0b6'
+      security_group:
+        description: 'aws_security_group'
+        required: true
+        type: string
+        default: 'aws-sdv-poc-sdv-user-awscomputeserver-security-group'
+
+env:
+  AWS_DEFAULT_REGION: eu-west-1
+  SUBNET_ID: subnet-0169ae62d47f4b0b6
+  AWS_SECURITY_GROUP: aws-sdv-poc-sdv-user-awscomputeserver-security-group
+
+jobs:
+  # Build Unit Test Sources Job
+  build:
+    name: "Build Unit Test sources"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Preinstall
+        run: |
+          sudo apt-get update
+          sudo apt-get install build-essential libtool autoconf libssl-dev libssh-dev cmake
+
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make
+      
+      - name: Temporarily save build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: binary-unit-tests
+          path: ./build/test/gtest_example_unit_tests
+          retention-days: 1
+
+  # Execute Unit Test Job
+  run:
+    name: "Create env and Execute unit Tests"
+    needs: build
+
+    container: ubuntu:latest
+    runs-on:
+      - self-hosted
+      - k8s-api
+      - linux-amd64-m
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      
+      - name: Update pip
+        run: |
+          python -m pip install --upgrade pip
+      
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: binary-unit-tests
+          path: ./build/test/gtest_example_unit_tests
+
+      - name: Run Project
+        run: |
+          pip install ./sdvcf_sim-0.0.1-cp311-cp311-linux_x86_64.whl
+          
+          export CLOUD_PROVIDER=AWS
+          export SUBNET_ID=${{ github.events.inputs.subnet_id || env.SUBNET_ID }}
+          export IMAGE_ID=QNX
+          export INSTANCE_TYPE=t2.micro
+          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          export AWS_DEFAULT_REGION=${{ github.events.inputs.aws_default_region || env.AWS_DEFAULT_REGION }}
+          # export AWS_SECURITY_GROUP=${{ github.events.inputs.aws_security_group || env.AWS_SECURITY_GROUP }}
+          
+          export PATH_TO_EXECUTABLE_LOCAL=./build/test/gtest_example_unit_tests/gtest_example_unit_tests
+          
+          export REPORT_DIRECTORY_REMOTE=./output
+          mkdir `pwd`/output_local
+          export REPORT_DIRECTORY_LOCAL=`pwd`/output_local
+          
+          echo "INPUTS : ${{ toJson(github.events.inputs) }}"
+          echo "VARS : ${{ toJson(vars) }}"
+          echo "ENV : ${{ toJson(env) }}"
+          
+          sdvcf_sim --system-under-test-manifest system_under_test.yaml
+
+      - name: Download report
+        uses: actions/upload-artifact@v4
+        with:
+          name: output-result
+          path: output_local/**/*.xml
+
+      - name: Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action/linux@v2
+        if: always()
+        with:
+          comment_mode: always
+          files: |
+            output_local/**/*.xml
